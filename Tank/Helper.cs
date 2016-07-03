@@ -28,11 +28,8 @@ namespace Tank
 
         public static DateTime GetDate(this string source)
         {
-            DateTime date = DateTime.Now;
-            //if (date.(source))
-            //{
-            //    return i;
-            //}
+            DateTime date;
+            DateTime.TryParse(source, out date);
             return date;
         }
 

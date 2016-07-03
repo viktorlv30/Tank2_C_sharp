@@ -46,18 +46,25 @@ namespace Tank
                         throw new Exception("Cannot parse armor of tank");
                     }
 
-                    //DateTime date = splitString[4].GetDate();
-                    //if (date == -1)
-                    //{
-                    //    throw new Exception("Cannot parse date made of tank");
-                    //}
+                    int caliber = splitString[4].GetInt();
+                    if (caliber == -1)
+                    {
+                        throw new Exception("Cannot parse barrel's caliber of tank");
+                    }
 
-
+                    int crew = splitString[5].GetInt();
+                    if (crew == -1)
+                    {
+                        throw new Exception("Cannot parse crew number of tank");
+                    }
 
                     var heavyTank = new HeavyTank(id)
                     {
+                        Name = splitString[1],
+                        Type = (int)TypeTank.Heavy,
                         Armor = armor,
-                        Name = splitString[1]
+                        Caliber = caliber,
+                        Crew = crew
                     };
                     result = heavyTank;
                     return true;

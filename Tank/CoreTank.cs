@@ -55,7 +55,7 @@ namespace Tank
         {
             var item = new ListViewItem(tank.Name);
             item.SubItems.Add(tank.Armor.ToString());
-            item.SubItems.Add(_idTank.ToString());
+            item.SubItems.Add(tank.Id.ToString());
 
             lvTankList.Items.Add(item);
         }
@@ -94,27 +94,28 @@ namespace Tank
                     if (tank.Id == id)
                     {
                         scContCore.Panel2.Controls.Clear();
+                        
                         switch (tank.Type)
                         {
-                            case (int)TypeTank.Little:
+                            case (int) TypeTank.Little:
                                 scContCore.Panel2.Controls.Add(
-                                    new ucLittle((LittleTank)tank)
+                                    new ucLittle((LittleTank) tank)
                                     {
                                         Dock = DockStyle.Fill
                                     }
                                     );
                                 break;
-                            case (int)TypeTank.Middle:
+                            case (int) TypeTank.Middle:
                                 scContCore.Panel2.Controls.Add(
-                                    new ucMiddle((MiddleTank)tank)
+                                    new ucMiddle((MiddleTank) tank)
                                     {
                                         Dock = DockStyle.Fill
                                     }
                                     );
                                 break;
-                            case (int)TypeTank.Heavy:
+                            case (int) TypeTank.Heavy:
                                 scContCore.Panel2.Controls.Add(
-                                    new ucHeavy((HeavyTank)tank)
+                                    new ucHeavy((HeavyTank) tank)
                                     {
                                         Dock = DockStyle.Fill
                                     }
@@ -140,7 +141,7 @@ namespace Tank
             StreamWriter sw = null;
             try
             {
-                st = new FileStream(@"d:\docs\C#\TANK_WFA\Tank_git\base.txt", FileMode.Append);
+                st = new FileStream(@"d:\docs\C#\TANK_WFA_2\base.txt", FileMode.Append);
                 sw = new StreamWriter(st);
                 foreach (var tank in _lTanks)
                 {
@@ -177,7 +178,7 @@ namespace Tank
 
             try
             {
-                using (var st = new FileStream(@"d:\docs\C#\TANK_WFA\Tank_git\base.txt",
+                using (var st = new FileStream(@"d:\docs\C#\TANK_WFA_2\base.txt",
                     FileMode.Append))
                 {
                     using (var sw = new StreamWriter(st))
@@ -209,7 +210,7 @@ namespace Tank
                 result += tank + Environment.NewLine;
             }
 
-            File.AppendAllText(@"d:\docs\C#\TANK_WFA\Tank_git\base.txt", result);
+            File.AppendAllText(@"d:\docs\C#\TANK_WFA_2\base.txt", result);
 
         }
 
@@ -218,7 +219,8 @@ namespace Tank
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.Filter = "Text files only|*.txt";
             openFile.Multiselect = false;
-            openFile.InitialDirectory = Directory.GetCurrentDirectory();
+            //openFile.InitialDirectory = Directory.GetCurrentDirectory();
+            openFile.InitialDirectory = @"d:\docs\C#\TANK_WFA_2\";
             if (openFile.ShowDialog() == DialogResult.OK)
             {
                 string fileText = File.ReadAllText(openFile.FileName);

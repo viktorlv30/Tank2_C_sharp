@@ -46,18 +46,27 @@ namespace Tank
                         throw new Exception("Cannot parse armor of tank");
                     }
 
-                    //DateTime date = splitString[4].GetDate();
-                    //if (date == -1)
-                    //{
-                    //    throw new Exception("Cannot parse date made of tank");
-                    //}
+                    DateTime date = splitString[4].GetDate();
+                    if (date == DateTime.Parse("01.01.0001"))
+                    {
+                        throw new Exception("Cannot parse date made of tank");
+                    }
 
-                    
+                    int barrel = splitString[5].GetInt();
+                    if (barrel == -1)
+                    {
+                        throw new Exception("Cannot parse barrel length of tank");
+                    }
+
 
                     var littleTank = new LittleTank(id)
                     {
+                        
+                        Name = splitString[1],
+                        Type = (int)TypeTank.Little,
                         Armor = armor,
-                        Name = splitString[1]
+                        Date = date,
+                        Barrel = barrel
                     };
                     result = littleTank;
                     return true;

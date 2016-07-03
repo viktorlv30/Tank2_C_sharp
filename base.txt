@@ -1,3 +1,4 @@
 1;lit;Little;10;30.06.1940;1500
 2;mid;Middle;20;1540;White
 3;hard;Heavy;50;150;8
+4;HerMayor;Heavy;150;200;9

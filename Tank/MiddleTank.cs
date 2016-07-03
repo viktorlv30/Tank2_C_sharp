@@ -23,7 +23,7 @@ namespace Tank
 
         public override string ToString()
         {
-            return string.Format("Tank name - {0}, type - {1}, armor thinckness - {2} mm, cistern volume - {3} litters, color - {4}", Name, TypeTank.Middle, Armor, Cistern, Color);
+            return string.Format("{0};{1};{2};{3};{4};{5}", Id, Name, TypeTank.Middle, Armor, Cistern, Color);
         }
 
         public static bool TryParse(string source, out MiddleTank result)
@@ -46,18 +46,19 @@ namespace Tank
                         throw new Exception("Cannot parse armor of tank");
                     }
 
-                    //DateTime date = splitString[4].GetDate();
-                    //if (date == -1)
-                    //{
-                    //    throw new Exception("Cannot parse date made of tank");
-                    //}
-
-
-
+                    int cistern = splitString[4].GetInt();
+                    if (cistern == -1)
+                    {
+                        throw new Exception("Cannot parse cistern volume of tank");
+                    }
+                    
                     var middleTank = new MiddleTank(id)
                     {
+                        Name = splitString[1],
+                        Type = (int)TypeTank.Middle,
                         Armor = armor,
-                        Name = splitString[1]
+                        Cistern = cistern,
+                        Color = splitString[5]
                     };
                     result = middleTank;
                     return true;
