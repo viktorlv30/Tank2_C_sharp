@@ -310,19 +310,22 @@ namespace Tank
                         switch (type)
                         {
                             case TypeTank.Little:
-                                LittleTank lTank = LittleTank.Copy((LittleTank)tank, _idTank++);
+                                LittleTank lTank = LittleTank.Copy((LittleTank)tank, _idTank);
                                 _lTanks.Add(lTank);
                                 AddItemToListView(lTank);
+                                _idTank++;
                                 break;
                             case TypeTank.Middle:
-                                MiddleTank mTank = MiddleTank.Copy((MiddleTank)tank, _idTank++);
+                                MiddleTank mTank = MiddleTank.Copy((MiddleTank)tank, _idTank);
                                 _lTanks.Add(mTank);
                                 AddItemToListView(mTank);
+                                _idTank++;
                                 break;
                             case TypeTank.Heavy:
-                                HeavyTank hTank = HeavyTank.Copy((HeavyTank)tank, _idTank++);
+                                HeavyTank hTank = HeavyTank.Copy((HeavyTank)tank, _idTank);
                                 _lTanks.Add(hTank);
                                 AddItemToListView(hTank);
+                                _idTank++;
                                 break;
                         }
                     }
