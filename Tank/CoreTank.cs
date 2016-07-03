@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace Tank
 {
@@ -128,12 +129,6 @@ namespace Tank
             }
         }
 
-        private void saveToFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveToFile();
-            //SaveToFileStreamSafe();
-            //SaveToFileSimple();
-        }
 
         private void SaveToFile()
         {
@@ -216,53 +211,128 @@ namespace Tank
 
         private void openSavedToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            //string filter = "Text files only|*.txt";
+            string filter = "Xml files only|*.xml";
+            OpenSavedFile(filter);
+            
+        }
+
+        private void OpenSavedFile(string filter)
+        {
             OpenFileDialog openFile = new OpenFileDialog();
-            openFile.Filter = "Text files only|*.txt";
+            openFile.Filter = filter;
             openFile.Multiselect = false;
             //openFile.InitialDirectory = Directory.GetCurrentDirectory();
             openFile.InitialDirectory = @"d:\docs\C#\TANK_WFA_2\";
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                string fileText = File.ReadAllText(openFile.FileName);
-                List<string> stringTanks = fileText.Split(Environment.NewLine.ToCharArray(),
-                    StringSplitOptions.RemoveEmptyEntries).ToList();
-                _lTanks.Clear();
+                ReadFromTxt(openFile.FileName);
+                DeSerializerFromXml(openFile.FileName);
+            }
+        }
 
-                foreach (var stringTank in stringTanks)
+        private void ReadFromTxt(string fileName)
+        {
+            string fileText = File.ReadAllText(fileName);
+
+            List<string> stringTanks = fileText.Split(Environment.NewLine.ToCharArray(),
+                StringSplitOptions.RemoveEmptyEntries).ToList();
+            _lTanks.Clear();
+
+            foreach (var stringTank in stringTanks)
+            {
+
+                var stringTankType = stringTank.Split(';').ToList()[2];
+                TypeTank type;
+                Enum.TryParse(stringTankType, true, out type);
+
+                switch (type)
                 {
-                    
-                    var stringTankType = stringTank.Split(';').ToList()[2];
-                    TypeTank type;
-                    Enum.TryParse(stringTankType, true, out type);
-
-                    switch (type)
-                    {
-                        case TypeTank.Little:
-                            LittleTank lTank;
-                            if (LittleTank.TryParse(stringTank, out lTank))
-                            {
-                                _lTanks.Add(lTank);
-                                AddItemToListView(lTank);
-                            }
-                            break;
-                        case TypeTank.Middle:
-                            MiddleTank mTank;
-                            if (MiddleTank.TryParse(stringTank, out mTank))
-                            {
-                                _lTanks.Add(mTank);
-                                AddItemToListView(mTank);
-                            }
-                            break;
-                        case TypeTank.Heavy:
-                            HeavyTank hTank;
-                            if (HeavyTank.TryParse(stringTank, out hTank))
-                            {
-                                _lTanks.Add(hTank);
-                                AddItemToListView(hTank);
-                            }
-                            break;
-                    }
+                    case TypeTank.Little:
+                        LittleTank lTank;
+                        if (LittleTank.TryParse(stringTank, out lTank))
+                        {
+                            _lTanks.Add(lTank);
+                            AddItemToListView(lTank);
+                        }
+                        break;
+                    case TypeTank.Middle:
+                        MiddleTank mTank;
+                        if (MiddleTank.TryParse(stringTank, out mTank))
+                        {
+                            _lTanks.Add(mTank);
+                            AddItemToListView(mTank);
+                        }
+                        break;
+                    case TypeTank.Heavy:
+                        HeavyTank hTank;
+                        if (HeavyTank.TryParse(stringTank, out hTank))
+                        {
+                            _lTanks.Add(hTank);
+                            AddItemToListView(hTank);
+                        }
+                        break;
                 }
+            }
+
+        }
+
+
+        private void SerializerToFile()
+        {
+            using (var stream = new FileStream(@"d:\docs\C#\TANK_WFA_2\Ser.xml", FileMode.OpenOrCreate))
+            {
+                var serializer = new XmlSerializer(typeof (List<Tank>),
+                    new[] {typeof (LittleTank), typeof (MiddleTank), typeof (HeavyTank)});
+
+                serializer.Serialize(stream, _lTanks);
+            }
+        }
+
+        private void DeSerializerFromXml(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                using (var stream = new FileStream(fileName, FileMode.Open))
+                {
+                    var serializer = new XmlSerializer(typeof(List<Tank>),
+                    new[] { typeof(LittleTank), typeof(MiddleTank), typeof(HeavyTank) });
+
+                    _lTanks = (List<Tank>) serializer.Deserialize(stream);
+                }     
+            }
+        }
+
+
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About ab = new About();
+            ab.ShowDialog();
+        }
+
+        private void fileToolStripMenuItem_MouseHover(object sender, EventArgs e)
+        {
+            //toolTip.Show(((ToolStripMenuItem) sender).ToolTipText, mainMenuStrip);
+        }
+
+        private void saveToFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //SaveToFile();
+            //SaveToFileStreamSafe();
+            //SaveToFileSimple();
+
+            try
+            {
+                SerializerToFile();
+                MessageBox.Show("File saved", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
