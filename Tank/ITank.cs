@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tank
 {
-    interface IDiscription
+    interface ITank
     {
         string Name { get; set; }
 

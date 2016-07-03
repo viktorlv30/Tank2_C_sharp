@@ -75,7 +75,7 @@
       <DependentUpon>CoreTank.cs</DependentUpon>
     </Compile>
     <Compile Include="HeavyTank.cs" />
-    <Compile Include="IDiscription.cs" />
+    <Compile Include="ITank.cs" />
     <Compile Include="LittleTank.cs" />
     <Compile Include="MiddleTank.cs" />
     <Compile Include="Program.cs" />

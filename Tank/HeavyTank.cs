@@ -1,16 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tank
 {
+    [DataContract]
     public class HeavyTank : Tank
     {
 
         private int _iGunCaliber;
         private int _iCrewNum;
+
+        public HeavyTank()
+        {
+
+        }
+
+        public static HeavyTank Copy(HeavyTank tank, int id)
+        {
+            HeavyTank newTank = new HeavyTank(id);
+            newTank.Name = tank.Name;
+            newTank.Armor = tank.Armor;
+            newTank.Type = tank.Type;
+            newTank.Caliber = tank.Caliber;
+            newTank.Crew = tank.Crew;
+            return newTank;
+        }
 
         public HeavyTank(int id) : base(id)
         {

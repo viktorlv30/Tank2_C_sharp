@@ -1,16 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tank
 {
+    [DataContract]
     public class LittleTank : Tank
     {
 
         private DateTime _dDate;
         private int _iBarrelLength;
+
+        public static LittleTank Copy(LittleTank tank, int id)
+        {
+            LittleTank newTank = new LittleTank(id);
+            newTank.Name = tank.Name;
+            newTank.Armor = tank.Armor;
+            newTank.Type = tank.Type;
+            newTank.Date = tank.Date;
+            newTank.Barrel = tank.Barrel;
+            return newTank;
+        }
+
+        public LittleTank()
+        {
+            
+        }
 
         public LittleTank(int id) : base(id)
         {

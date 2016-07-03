@@ -1,16 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tank
 {
+    [DataContract]
     public class MiddleTank : Tank
     {
 
         private int _iCistern;
         private string _sColor;
+
+        public MiddleTank()
+        {
+
+        }
+
+        public static MiddleTank Copy(MiddleTank tank, int id)
+        {
+            MiddleTank newTank = new MiddleTank(id);
+            newTank.Name = tank.Name;
+            newTank.Armor = tank.Armor;
+            newTank.Type = tank.Type;
+            newTank.Cistern = tank.Cistern;
+            newTank.Color = tank.Color;
+            return newTank;
+        }
 
         public MiddleTank(int id) : base(id)
         {

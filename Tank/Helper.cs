@@ -19,7 +19,7 @@ namespace Tank
         public static int GetInt(this string source)
         {
             int i;
-            if (int.TryParse(source, out i))
+            if (Int32.TryParse(source, out i))
             {
                 return i;
             }
@@ -32,6 +32,8 @@ namespace Tank
             DateTime.TryParse(source, out date);
             return date;
         }
+
+
 
     }
 }

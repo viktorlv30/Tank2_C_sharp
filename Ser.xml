@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ArrayOfTank xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tank xsi:type="LittleTank">
+    <Name>zdgn</Name>
+    <Armor>3</Armor>
+    <Type>0</Type>
+    <Date>1950-07-03T15:14:04</Date>
+    <Barrel>1</Barrel>
+  </Tank>
+  <Tank xsi:type="HeavyTank">
+    <Name>c h,</Name>
+    <Armor>11</Armor>
+    <Type>2</Type>
+    <Caliber>235</Caliber>
+    <Crew>1</Crew>
+  </Tank>
+</ArrayOfTank>

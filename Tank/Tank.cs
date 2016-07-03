@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Tank
 {
     [DataContract] //for serializator to Xml
-    public class Tank : IDiscription
+    public class Tank : ITank
     {
         [DataMember] 
         private string _sName;
@@ -17,8 +17,12 @@ namespace Tank
         [DataMember]
         private int _iType;
         [DataMember]
-        public readonly int Id;
-        
+        public readonly int Id = 0;
+
+        protected Tank()
+        {
+            
+        }
 
         public Tank( int id)
         {
@@ -36,5 +40,7 @@ namespace Tank
         {
             return Name;
         }
+
+
     }
 }

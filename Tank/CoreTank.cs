@@ -43,8 +43,8 @@ namespace Tank
             if (addt.ShowDialog() == DialogResult.OK)
             {
                 var tank = addt.GetCreatedTank();
-                _lTanks.Add(tank);
 
+                _lTanks.Add(tank);
                 AddItemToListView(tank);
 
                 _idTank++;
@@ -227,7 +227,7 @@ namespace Tank
             openFile.InitialDirectory = @"d:\docs\C#\TANK_WFA_2\";
             if (openFile.ShowDialog() == DialogResult.OK)
             {
-                ReadFromTxt(openFile.FileName);
+                //ReadFromTxt(openFile.FileName);
                 DeSerializerFromXml(openFile.FileName);
             }
         }
@@ -299,7 +299,33 @@ namespace Tank
                     var serializer = new XmlSerializer(typeof(List<Tank>),
                     new[] { typeof(LittleTank), typeof(MiddleTank), typeof(HeavyTank) });
 
-                    _lTanks = (List<Tank>) serializer.Deserialize(stream);
+                    List<Tank> list = (List<Tank>) serializer.Deserialize(stream);
+                    foreach (var tank in list)
+                    {
+
+                        var stringTankType = tank.ToString().Split(';').ToList()[2];
+                        TypeTank type;
+                        Enum.TryParse(stringTankType, true, out type);
+
+                        switch (type)
+                        {
+                            case TypeTank.Little:
+                                LittleTank lTank = LittleTank.Copy((LittleTank)tank, _idTank++);
+                                _lTanks.Add(lTank);
+                                AddItemToListView(lTank);
+                                break;
+                            case TypeTank.Middle:
+                                MiddleTank mTank = MiddleTank.Copy((MiddleTank)tank, _idTank++);
+                                _lTanks.Add(mTank);
+                                AddItemToListView(mTank);
+                                break;
+                            case TypeTank.Heavy:
+                                HeavyTank hTank = HeavyTank.Copy((HeavyTank)tank, _idTank++);
+                                _lTanks.Add(hTank);
+                                AddItemToListView(hTank);
+                                break;
+                        }
+                    }
                 }     
             }
         }
