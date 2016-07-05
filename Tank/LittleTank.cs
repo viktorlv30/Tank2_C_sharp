@@ -94,10 +94,6 @@ namespace Tank
             {
                 return false;
             }
-
-            
         }
-
-
     }
 }
